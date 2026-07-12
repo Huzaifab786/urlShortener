@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Link - Snipp</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#5f5e5e",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "tertiary-container": "#b75b00",
+                    "outline-variant": "#c2c6d6",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "on-surface-variant": "#424754",
+                    "surface-container-highest": "#e3e2e2",
+                    "on-primary-fixed-variant": "#004395",
+                    "on-primary-fixed": "#001a42",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#efeded",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-surface": "#303031",
+                    "surface-container-low": "#f5f3f3",
+                    "outline": "#727785",
+                    "surface-tint": "#005ac2",
+                    "on-secondary-container": "#636262",
+                    "on-surface": "#1b1c1c",
+                    "surface": "#fbf9f9",
+                    "inverse-primary": "#adc6ff",
+                    "primary-container": "#2170e4",
+                    "secondary-container": "#e2dfde",
+                    "primary-fixed-dim": "#adc6ff",
+                    "tertiary-fixed": "#ffdcc6",
+                    "background": "#fbf9f9",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#d8e2ff",
+                    "on-background": "#1b1c1c",
+                    "surface-container-high": "#e9e8e7",
+                    "tertiary": "#924700",
+                    "surface-bright": "#fbf9f9",
+                    "on-tertiary-fixed": "#311400",
+                    "on-primary-container": "#fefcff",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "on-tertiary-container": "#fffbff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#1c1b1b",
+                    "surface-variant": "#e3e2e2",
+                    "inverse-on-surface": "#f2f0f0",
+                    "on-secondary-fixed-variant": "#474746",
+                    "primary": "#0058be",
+                    "surface-dim": "#dbdad9",
+                    "secondary-fixed": "#e5e2e1",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "unit-md": "16px",
+                    "container-max": "1200px",
+                    "unit-xs": "4px",
+                    "unit-sm": "8px",
+                    "gutter": "24px",
+                    "unit-lg": "24px",
+                    "unit-xl": "48px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "headline-xl-mobile": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "mono-md": ["Geist Mono"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "mono-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-screen w-screen overflow-hidden relative">
+<!-- Mock Dashboard Background (Blurred out to focus on modal) -->
+<div class="absolute inset-0 z-0 flex flex-col blur-sm opacity-60">
+<header class="flex justify-between items-center h-16 px-6 md:px-unit-lg w-full max-w-container-max mx-auto bg-surface border-b border-outline-variant">
+<div class="font-headline-lg text-headline-lg font-black text-primary">Snipp</div>
+<div class="flex items-center gap-unit-md">
+<button class="bg-primary text-on-primary font-label-md text-label-md py-2 px-4 rounded-lg">Create New Link</button>
+</div>
+</header>
+<main class="flex-1 p-unit-lg max-w-container-max mx-auto w-full flex flex-col gap-unit-xl">
+<div class="flex flex-col gap-unit-sm">
+<h1 class="font-headline-xl text-headline-xl">Dashboard</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage your shortened links and track performance.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-unit-lg">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-unit-lg shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)]">
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-2">Total Clicks</h3>
+<div class="font-headline-xl text-headline-xl">14,209</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-unit-lg shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)]">
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-2">Active Links</h3>
+<div class="font-headline-xl text-headline-xl">342</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-unit-lg shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)]">
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-2">Avg. CTR</h3>
+<div class="font-headline-xl text-headline-xl">4.2%</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Modal Backdrop Overlay -->
+<div class="absolute inset-0 z-40 bg-surface/50 backdrop-blur-[12px] flex items-center justify-center p-margin-mobile md:p-0">
+<!-- Modal Container (Level 3 Pop-over) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl w-full max-w-[500px] shadow-lg flex flex-col overflow-hidden animate-[modalIn_0.2s_ease-out]">
+<!-- Modal Header -->
+<div class="px-unit-lg py-unit-md border-b border-outline-variant flex justify-between items-center bg-surface">
+<h2 class="font-headline-md text-headline-md text-on-surface">Create New Link</h2>
+<button aria-label="Close modal" class="text-on-surface-variant hover:text-on-surface transition-colors p-1 rounded-full hover:bg-surface-container-highest focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="p-unit-lg flex flex-col gap-unit-lg">
+<!-- Destination URL (Required) -->
+<div class="flex flex-col gap-unit-xs">
+<label class="font-label-md text-label-md text-on-surface flex justify-between" for="originalUrl">
+                        Destination URL
+                        <span class="text-error font-label-md text-label-md">*</span>
+</label>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-outline material-symbols-outlined pointer-events-none" style="font-variation-settings: 'FILL' 0;">link</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-10 pr-3 py-2 font-body-md text-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="originalUrl" name="originalUrl" placeholder="https://example.com/very-long-url-path" required="" type="url"/>
+</div>
+</div>
+<!-- Short Code (Optional) -->
+<div class="flex flex-col gap-unit-xs">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-1" for="shortCode">
+                        Custom Short Link
+                        <span class="text-on-surface-variant font-body-md text-body-md text-xs opacity-70">(Optional)</span>
+<div class="group relative inline-block ml-1">
+<span class="material-symbols-outlined text-[14px] text-outline cursor-help" style="font-variation-settings: 'FILL' 0;">info</span>
+<div class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 bg-inverse-surface text-inverse-on-surface font-body-md text-[12px] leading-tight p-2 rounded-md shadow-md text-center z-50">
+                                Leave blank to generate a random code.
+                            </div>
+</div>
+</label>
+<div class="flex rounded-lg border border-outline-variant overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-colors bg-surface-container-lowest">
+<div class="bg-surface-container-low px-3 py-2 border-r border-outline-variant flex items-center justify-center font-mono-md text-mono-md text-on-surface-variant select-none">
+                            snipp.it/
+                        </div>
+<input class="w-full bg-transparent border-none px-3 py-2 font-mono-md text-mono-md text-on-surface placeholder:text-outline focus:ring-0 outline-none" id="shortCode" name="shortCode" placeholder="my-campaign" type="text"/>
+</div>
+</div>
+<!-- Link Title (Optional) -->
+<div class="flex flex-col gap-unit-xs">
+<label class="font-label-md text-label-md text-on-surface" for="linkTitle">
+                        Link Title
+                        <span class="text-on-surface-variant font-body-md text-body-md text-xs opacity-70 ml-1">(Optional)</span>
+</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="linkTitle" name="linkTitle" placeholder="e.g. Summer Promo Campaign" type="text"/>
+<p class="font-body-md text-[12px] text-on-surface-variant mt-1">For your own reference on the dashboard.</p>
+</div>
+</div>
+<!-- Modal Footer (Actions) -->
+<div class="px-unit-lg py-unit-md border-t border-outline-variant bg-surface flex justify-end gap-unit-sm">
+<button class="bg-surface-container-lowest border border-outline-variant text-on-surface font-label-md text-label-md py-2 px-4 rounded-lg hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors" type="button">
+                    Cancel
+                </button>
+<button class="bg-primary text-on-primary font-label-md text-label-md py-2 px-4 rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors shadow-sm flex items-center gap-2" type="submit">
+                    Create Link
+                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<style>
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+    </style>
+</body></html>

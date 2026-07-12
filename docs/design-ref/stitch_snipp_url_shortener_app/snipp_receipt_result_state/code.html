@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Snipp - Link Shortened Successfully</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#5f5e5e",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "tertiary-container": "#b75b00",
+                        "outline-variant": "#c2c6d6",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-surface-variant": "#424754",
+                        "surface-container-highest": "#e3e2e2",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-primary-fixed": "#001a42",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#efeded",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#303031",
+                        "surface-container-low": "#f5f3f3",
+                        "outline": "#727785",
+                        "surface-tint": "#005ac2",
+                        "on-secondary-container": "#636262",
+                        "on-surface": "#1b1c1c",
+                        "surface": "#fbf9f9",
+                        "inverse-primary": "#adc6ff",
+                        "primary-container": "#2170e4",
+                        "secondary-container": "#e2dfde",
+                        "primary-fixed-dim": "#adc6ff",
+                        "tertiary-fixed": "#ffdcc6",
+                        "background": "#fbf9f9",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#d8e2ff",
+                        "on-background": "#1b1c1c",
+                        "surface-container-high": "#e9e8e7",
+                        "tertiary": "#924700",
+                        "surface-bright": "#fbf9f9",
+                        "on-tertiary-fixed": "#311400",
+                        "on-primary-container": "#fefcff",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-container": "#fffbff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "surface-variant": "#e3e2e2",
+                        "inverse-on-surface": "#f2f0f0",
+                        "on-secondary-fixed-variant": "#474746",
+                        "primary": "#0058be",
+                        "surface-dim": "#dbdad9",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "unit-md": "16px",
+                        "container-max": "1200px",
+                        "unit-xs": "4px",
+                        "unit-sm": "8px",
+                        "gutter": "24px",
+                        "unit-lg": "24px",
+                        "unit-xl": "48px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-xl-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "mono-md": ["Geist Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "mono-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-lg">
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-outline-variant flat no shadows docked full-width top-0 z-50">
+<div class="flex justify-between items-center h-16 px-6 md:px-unit-lg w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-gutter">
+<a class="font-headline-lg text-headline-lg font-black text-primary" href="#">Snipp</a>
+<nav class="hidden md:flex items-center gap-unit-md">
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-200" href="#">Features</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-200" href="#">Pricing</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-200" href="#">Enterprise</a>
+</nav>
+</div>
+<div class="flex items-center gap-unit-sm">
+<button class="font-label-md text-label-md text-on-surface px-4 py-2 hover:text-primary transition-colors duration-200">Sign In</button>
+<button class="font-label-md text-label-md bg-primary text-on-primary px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">Sign Up</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center justify-center p-6 md:p-gutter w-full max-w-container-max mx-auto relative overflow-hidden">
+<!-- Subtle decorative background element -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-20" style="background: radial-gradient(circle at 50% 30%, var(--tw-colors-primary-container) 0%, transparent 60%);"></div>
+<div class="w-full max-w-2xl z-10 flex flex-col gap-unit-xl">
+<!-- Header section matching hero layout -->
+<div class="text-center flex flex-col gap-unit-sm">
+<div class="inline-flex items-center justify-center gap-2 bg-surface-container-low text-primary px-3 py-1 rounded-full text-label-md font-label-md mx-auto mb-4 border border-outline-variant">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    Link shortened successfully
+                </div>
+<h1 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface">Your link is ready to share.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mx-auto">Copy your new Snipp URL below. Sign in to track clicks and manage your links.</p>
+</div>
+<!-- Success Card -->
+<div class="bg-surface border border-outline-variant rounded-xl p-6 md:p-8 flex flex-col gap-6 shadow-[0_4px_6px_-1px_rgb(0_0_0_/_0.05)] relative overflow-hidden group border-dashed"><div class="absolute top-0 left-0 right-0 flex justify-around -mt-2 z-20">
+<div class="w-4 h-4 rounded-full bg-background border border-outline-variant"></div>
+<div class="w-4 h-4 rounded-full bg-background border border-outline-variant"></div>
+<div class="w-4 h-4 rounded-full bg-background border border-outline-variant"></div>
+<div class="w-4 h-4 rounded-full bg-background border border-outline-variant"></div>
+<div class="w-4 h-4 rounded-full bg-background border border-outline-variant"></div>
+<div class="w-4 h-4 rounded-full bg-background border border-outline-variant"></div>
+<div class="w-4 h-4 rounded-full bg-background border border-outline-variant"></div>
+<div class="w-4 h-4 rounded-full bg-background border border-outline-variant"></div>
+<div class="w-4 h-4 rounded-full bg-background border border-outline-variant"></div>
+<div class="w-4 h-4 rounded-full bg-background border border-outline-variant"></div>
+</div>
+<!-- Animated subtle gradient on hover -->
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-surface-container-lowest to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-1000 -translate-x-full group-hover:translate-x-full ease-in-out"></div>
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10"><div class="flex flex-col md:flex-row items-center gap-6 w-full">
+<div class="flex-shrink-0 bg-white p-2 border border-outline-variant rounded-lg">
+<img alt="QR Code" class="w-20 h-20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxoFKpZGeTNWYExZF1jYwObjTIHeaeP_KA3M2y73GMzQRos_wNNUCaVVg93nXcpXJ0MXFNIe4KgrxTbvjp8NuHXK1GHtG9PvkxzcW4E12YkCdNwOgajDjJyILw7fmf-dmOIDAqWOvssuqckB1bDIClVzlN3UsGlvq3mr2xnNVjKlTIlCdH_z5oZk5FwLBz7Pcg1qG_T0mIzhxSko7K5CIpKo7rXfWtBsK8B0g9RbuDLxIikGe3rucFD1sm1kXj11fPidJah3yRYn19"/>
+</div>
+<div class="flex-grow flex flex-col gap-2 overflow-hidden w-full">
+<label class="font-label-md text-label-md text-secondary uppercase tracking-wider text-[11px]">Shortened URL</label>
+<div class="flex items-center gap-2 bg-surface-container-lowest border border-dashed border-outline-variant rounded-lg p-3 w-full">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">link</span>
+<span class="font-mono-md text-mono-md text-on-surface truncate flex-grow select-all">snipp.it/abc123</span>
+</div>
+</div>
+<div class="w-full md:w-auto self-end md:self-center">
+<button class="w-full md:w-auto font-label-md text-label-md bg-primary text-on-primary px-6 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 h-11">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+            Copy Link
+        </button>
+</div>
+</div></div>
+<div class="border-t border-outline-variant pt-4 mt-2 border-dashed">
+<label class="font-label-md text-label-md text-secondary uppercase tracking-wider text-[11px] mb-1 block">Original URL</label>
+<p class="font-body-md text-body-md text-on-surface-variant truncate w-full" title="https://www.example.com/very/long/url/that/needs/to/be/shortened/for/marketing/campaigns">
+                        https://www.example.com/very/long/url/that/needs/to/be/shortened/for/marketing/campaigns
+                    </p>
+</div>
+</div>
+<!-- CTA Section -->
+<div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant text-center flex flex-col items-center gap-4">
+<span class="material-symbols-outlined text-[32px] text-tertiary">analytics</span>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Want to track this link?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Sign in to save this link to your dashboard and view detailed click analytics.</p>
+</div>
+<button class="font-label-md text-label-md bg-surface text-on-surface border border-outline-variant px-6 py-2 rounded-lg hover:bg-surface-container-high transition-colors mt-2">Sign in to Save</button>
+</div>
+<!-- Action links -->
+<div class="text-center mt-4">
+<a class="font-label-md text-label-md text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                    Shorten another link
+                </a>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface border-t border-outline-variant full-width bottom mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center py-unit-lg px-unit-md max-w-container-max mx-auto gap-4">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Snipp</span>
+<span class="font-body-md text-body-md text-secondary ml-2">© 2024 Snipp Inc.</span>
+</div>
+<nav class="flex gap-6">
+<a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors" href="#">Terms</a>
+<a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors" href="#">API</a>
+</nav>
+</div>
+</footer>
+</body></html>

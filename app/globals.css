@@ -2,26 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Locked design system from docs/TECH-STACK.md */
+    --background: 0 0% 98%; /* #FAFAFA */
+    --foreground: 0 0% 9%; /* #171717 */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 0 0% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+    --primary: 217 91% 60%; /* #3B82F6 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 220 9% 46%; /* #6B7280 */
+    --accent: 214 95% 93%;
+    --accent-foreground: 221 83% 40%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%; /* #E5E5E5 */
+    --input: 0 0% 90%;
+    --ring: 217 91% 60%;
+    --radius: 0.75rem;
+    --chart-1: 217 91% 60%;
+    --chart-2: 220 9% 46%;
+    --chart-3: 0 0% 45%;
+    --chart-4: 0 0% 64%;
+    --chart-5: 0 0% 83%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .dot-bg {
+    background-color: #fafafa;
+    background-image: radial-gradient(circle, #c2c6d6 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .dot-mask {
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
   }
 }

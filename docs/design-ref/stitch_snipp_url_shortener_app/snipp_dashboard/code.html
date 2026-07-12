@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Snipp - Links Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#5f5e5e",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "tertiary-container": "#b75b00",
+                        "outline-variant": "#c2c6d6",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-surface-variant": "#424754",
+                        "surface-container-highest": "#e3e2e2",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-primary-fixed": "#001a42",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#efeded",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#303031",
+                        "surface-container-low": "#f5f3f3",
+                        "outline": "#727785",
+                        "surface-tint": "#005ac2",
+                        "on-secondary-container": "#636262",
+                        "on-surface": "#1b1c1c",
+                        "surface": "#fbf9f9",
+                        "inverse-primary": "#adc6ff",
+                        "primary-container": "#2170e4",
+                        "secondary-container": "#e2dfde",
+                        "primary-fixed-dim": "#adc6ff",
+                        "tertiary-fixed": "#ffdcc6",
+                        "background": "#fbf9f9",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#d8e2ff",
+                        "on-background": "#1b1c1c",
+                        "surface-container-high": "#e9e8e7",
+                        "tertiary": "#924700",
+                        "surface-bright": "#fbf9f9",
+                        "on-tertiary-fixed": "#311400",
+                        "on-primary-container": "#fefcff",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-container": "#fffbff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "surface-variant": "#e3e2e2",
+                        "inverse-on-surface": "#f2f0f0",
+                        "on-secondary-fixed-variant": "#474746",
+                        "primary": "#0058be",
+                        "surface-dim": "#dbdad9",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "unit-md": "16px",
+                        "container-max": "1200px",
+                        "unit-xs": "4px",
+                        "unit-sm": "8px",
+                        "gutter": "24px",
+                        "unit-lg": "24px",
+                        "unit-xl": "48px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-xl-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "mono-md": ["Geist Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "headline-xl-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "mono-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #FAFAFA; }
+        .table-row-hover:hover { background-color: #f5f3f3; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
+        .filled-icon { font-variation-settings: 'FILL' 1 !important; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-inverse-surface text-primary dark:text-primary-fixed-dim border-r border-outline-variant dark:border-outline docked left-0 h-full w-64 flex flex-col h-full p-unit-md gap-unit-sm hidden md:flex shrink-0">
+<!-- Brand Header -->
+<div class="flex items-center gap-3 px-3 py-4 mb-4 border-b border-outline-variant/30">
+<div class="w-8 h-8 rounded bg-primary text-on-primary flex items-center justify-center font-bold">
+                S
+            </div>
+<div>
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim tracking-tight">Snipp Dashboard</div>
+<div class="font-label-md text-label-md text-on-surface-variant">Marketing Team</div>
+</div>
+</div>
+<!-- Create CTA -->
+<button class="mb-6 w-full bg-primary hover:bg-surface-tint text-on-primary font-label-md text-label-md py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+            Create New Link
+        </button>
+<!-- Main Navigation -->
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 bg-primary-container dark:bg-primary-container text-on-primary-container dark:text-on-primary-container rounded-lg font-medium opacity-80 scale-[0.98] transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined filled-icon text-[20px]">link</span>
+                Links
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg font-label-md text-label-md hover:bg-secondary-container dark:hover:bg-secondary-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">insert_chart</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg font-label-md text-label-md hover:bg-secondary-container dark:hover:bg-secondary-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                Settings
+            </a>
+</div>
+<!-- Footer Navigation -->
+<div class="mt-auto border-t border-outline-variant/30 pt-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg font-label-md text-label-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+                Help
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg font-label-md text-label-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                Feedback
+            </a>
+<!-- User Profile Area -->
+<div class="flex items-center gap-3 px-3 mt-4 py-2 hover:bg-surface-container-high rounded-lg cursor-pointer transition-colors">
+<img alt="User Workspace" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A clean, modern headshot of a professional user, well-lit against a neutral background, suitable for a corporate SaaS application avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC04VyLv5QSfnRLz4g1tVcQUreo2TOGYhBE5WdurHoKMbphTcHWDDG9l-2OAsR-I7ClcyhpKwCSeRJwP4u0rVU6zWHBDIRAqHmdYb4wnMDKKsrNLcW0WCuA7yC-QFxnQ0lEsIKpgPzuUW4b2tVLE-ZmoKZq_ImagvvJYutODnzdsm-bXNTz1ZgGA9WnMJKwmRNmpUfxAYaOxfpAL8me1dMizT4pzHYIFpVbS9yE1aCObCGsEA5x1CsotQ80Wz9lwet1ECl2kP-EM4R6"/>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">Jane Doe</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-[11px] truncate">jane@company.com</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col overflow-y-auto w-full">
+<!-- Content Header -->
+<header class="px-gutter py-unit-lg flex justify-between items-center max-w-container-max mx-auto w-full">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Links</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage and track your shortened URLs.</p>
+</div>
+<div class="flex items-center gap-unit-md">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="bg-surface border-outline-variant rounded-lg pl-9 pr-4 py-2 font-body-md text-body-md focus:ring-2 focus:ring-primary focus:border-primary w-64 transition-all" placeholder="Search links..." type="text"/>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-surface-tint focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Link
+                </button>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="px-gutter pb-unit-xl max-w-container-max w-full mx-auto flex-1">
+<!-- Quick Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-unit-md mb-unit-lg">
+<div class="bg-surface border border-outline-variant rounded-xl p-unit-md shadow-[0_4px_6px_-1px_rgb(0_0_0/0.05)]">
+<div class="text-on-surface-variant font-label-md text-label-md mb-1">Total Links</div>
+<div class="font-headline-lg text-headline-lg text-on-surface">1,204</div>
+</div>
+<div class="bg-surface border border-outline-variant rounded-xl p-unit-md shadow-[0_4px_6px_-1px_rgb(0_0_0/0.05)]">
+<div class="text-on-surface-variant font-label-md text-label-md mb-1">Total Clicks (30d)</div>
+<div class="font-headline-lg text-headline-lg text-on-surface">45.2K</div>
+</div>
+<div class="bg-surface border border-outline-variant rounded-xl p-unit-md shadow-[0_4px_6px_-1px_rgb(0_0_0/0.05)]">
+<div class="text-on-surface-variant font-label-md text-label-md mb-1">Top Performing</div>
+<div class="font-headline-lg text-headline-lg text-on-surface text-primary truncate">snpp.co/q3-promo</div>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="bg-surface border border-outline-variant rounded-xl shadow-[0_4px_6px_-1px_rgb(0_0_0/0.05)] overflow-hidden">
+<!-- Table Controls -->
+<div class="px-4 py-3 border-b border-outline-variant bg-surface-container-lowest flex justify-between items-center">
+<div class="flex gap-2">
+<button class="font-label-md text-label-md text-on-surface bg-surface-container-low px-3 py-1.5 rounded border border-outline-variant hover:bg-surface-container transition-colors">All Links</button>
+<button class="font-label-md text-label-md text-on-surface-variant px-3 py-1.5 rounded hover:bg-surface-container-low transition-colors">Active</button>
+<button class="font-label-md text-label-md text-on-surface-variant px-3 py-1.5 rounded hover:bg-surface-container-low transition-colors">Archived</button>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface flex items-center gap-1 font-label-md text-label-md transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Filter
+                    </button>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-bright">
+<th class="font-label-md text-label-md text-on-surface-variant font-medium py-3 px-4 w-1/4">Name</th>
+<th class="font-label-md text-label-md text-on-surface-variant font-medium py-3 px-4 w-1/4">Short URL</th>
+<th class="font-label-md text-label-md text-on-surface-variant font-medium py-3 px-4 w-1/4">Original URL</th>
+<th class="font-label-md text-label-md text-on-surface-variant font-medium py-3 px-4 w-32">Clicks</th>
+<th class="font-label-md text-label-md text-on-surface-variant font-medium py-3 px-4 w-32">Created</th>
+<th class="font-label-md text-label-md text-on-surface-variant font-medium py-3 px-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="table-row-hover transition-colors group bg-surface-container-lowest">
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md font-medium text-on-surface">Q3 Marketing Campaign</div>
+<div class="flex items-center gap-1 mt-1">
+<span class="inline-block w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-md text-[11px] text-on-surface-variant uppercase tracking-wider">Social</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<a class="font-mono-md text-mono-md text-primary hover:underline flex items-center gap-1 group-hover:text-surface-tint" href="#">
+                                        snpp.co/q3-promo
+                                    </a>
+</td>
+<td class="py-4 px-4 align-top max-w-[200px]">
+<div class="font-body-md text-body-md text-on-surface-variant truncate" title="https://www.example.com/marketing/campaigns/q3-promo-details-extended">
+                                        https://www.example.com/marketing/campaigns/q3-promo...
+                                    </div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md text-on-surface">12,405</div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md text-on-surface-variant">Oct 12, 2024</div>
+</td>
+<td class="py-4 px-4 align-top text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-on-surface-variant hover:text-primary rounded transition-colors" title="Copy">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-error rounded transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="table-row-hover transition-colors group bg-surface-container-lowest">
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md font-medium text-on-surface">Product Launch Webinar</div>
+<div class="flex items-center gap-1 mt-1">
+<span class="inline-block w-2 h-2 rounded-full bg-secondary-fixed-dim"></span>
+<span class="font-label-md text-[11px] text-on-surface-variant uppercase tracking-wider">Email</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<a class="font-mono-md text-mono-md text-primary hover:underline flex items-center gap-1 group-hover:text-surface-tint" href="#">
+                                        snpp.co/webinar-v2
+                                    </a>
+</td>
+<td class="py-4 px-4 align-top max-w-[200px]">
+<div class="font-body-md text-body-md text-on-surface-variant truncate" title="https://zoom.us/webinar/register/WN_xk8jasd98u98as">
+                                        https://zoom.us/webinar/register/WN_xk8jas...
+                                    </div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md text-on-surface">3,291</div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md text-on-surface-variant">Oct 10, 2024</div>
+</td>
+<td class="py-4 px-4 align-top text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-on-surface-variant hover:text-primary rounded transition-colors" title="Copy">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-error rounded transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="table-row-hover transition-colors group bg-surface-container-lowest">
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md font-medium text-on-surface">Partner Portal Access</div>
+</td>
+<td class="py-4 px-4 align-top">
+<a class="font-mono-md text-mono-md text-primary hover:underline flex items-center gap-1 group-hover:text-surface-tint" href="#">
+                                        snpp.co/partners
+                                    </a>
+</td>
+<td class="py-4 px-4 align-top max-w-[200px]">
+<div class="font-body-md text-body-md text-on-surface-variant truncate" title="https://partners.example.com/login?ref=direct">
+                                        https://partners.example.com/login?ref=direct
+                                    </div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md text-on-surface">842</div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md text-on-surface-variant">Sep 28, 2024</div>
+</td>
+<td class="py-4 px-4 align-top text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-on-surface-variant hover:text-primary rounded transition-colors" title="Copy">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-error rounded transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="table-row-hover transition-colors group bg-surface-container-lowest">
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md font-medium text-on-surface text-on-surface-variant">App Download Link (iOS)</div>
+<div class="flex items-center gap-1 mt-1">
+<span class="inline-block w-2 h-2 rounded-full bg-surface-dim"></span>
+<span class="font-label-md text-[11px] text-outline uppercase tracking-wider">Archived</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<a class="font-mono-md text-mono-md text-on-surface-variant hover:text-primary hover:underline flex items-center gap-1" href="#">
+                                        snpp.co/ios-app-old
+                                    </a>
+</td>
+<td class="py-4 px-4 align-top max-w-[200px]">
+<div class="font-body-md text-body-md text-on-surface-variant/70 truncate" title="https://apps.apple.com/app/id123456789">
+                                        https://apps.apple.com/app/id123456789
+                                    </div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md text-on-surface-variant">54,192</div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="font-body-md text-body-md text-on-surface-variant">Jan 15, 2024</div>
+</td>
+<td class="py-4 px-4 align-top text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-on-surface-variant hover:text-primary rounded transition-colors" title="Copy">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-error rounded transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-4 py-3 border-t border-outline-variant bg-surface-container-lowest flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Showing 1 to 4 of 1,204 entries</span>
+<div class="flex gap-1">
+<button class="px-2 py-1 border border-outline-variant rounded text-on-surface-variant disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px] block">chevron_left</span>
+</button>
+<button class="px-3 py-1 border border-primary bg-primary-container text-on-primary-container font-label-md text-label-md rounded">1</button>
+<button class="px-3 py-1 border border-outline-variant hover:bg-surface-container-low text-on-surface font-label-md text-label-md rounded transition-colors">2</button>
+<button class="px-3 py-1 border border-outline-variant hover:bg-surface-container-low text-on-surface font-label-md text-label-md rounded transition-colors">3</button>
+<span class="px-2 py-1 text-on-surface-variant">...</span>
+<button class="px-2 py-1 border border-outline-variant rounded text-on-surface hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px] block">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
