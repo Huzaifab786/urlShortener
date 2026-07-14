@@ -135,7 +135,7 @@ export function Sidebar({ email, displayName }: SidebarProps) {
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex h-full w-64 flex-col border-r border-border bg-secondary p-4 transition-transform md:static md:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 flex h-screen w-64 shrink-0 flex-col border-r border-border bg-secondary p-4 transition-transform md:sticky md:top-0 md:translate-x-0",
           open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
       >
