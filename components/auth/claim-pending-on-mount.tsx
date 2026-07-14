@@ -19,9 +19,18 @@ export function ClaimPendingOnMount() {
     const pending = readPendingClaim();
     if (!pending) return;
 
-    void claimPendingLink(pending).finally(() => {
-      clearPendingClaim();
-    });
+    void (async () => {
+      try {
+        const result = await claimPendingLink(pending);
+        if (result.success) {
+          clearPendingClaim();
+        } else if (typeof window !== "undefined") {
+          console.error("[snipp] claim failed:", result.error, pending);
+        }
+      } catch (err) {
+        console.error("[snipp] claim threw:", err);
+      }
+    })();
   }, []);
 
   return null;

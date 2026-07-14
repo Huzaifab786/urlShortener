@@ -11,10 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { completeAuthRedirect } from "@/lib/actions/auth";
 import { createClient } from "@/lib/supabase/client";
-import {
-  clearPendingClaim,
-  readPendingClaim,
-} from "@/lib/utils/pending-claim";
+import { readPendingClaim } from "@/lib/utils/pending-claim";
 import {
   signInSchema,
   type SignInInput,
@@ -43,8 +40,9 @@ export function SignInForm() {
     }
 
     const pending = readPendingClaim();
-    clearPendingClaim();
     await completeAuthRedirect(pending);
+    // completeAuthRedirect redirects on success; only clear after claim is attempted there.
+    // Keep localStorage until ClaimPendingOnMount confirms success as a backup.
   }
 
   return (
