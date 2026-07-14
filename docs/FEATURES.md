@@ -66,7 +66,7 @@ below is free for every user, always.
 - [x] Each row in the links table shows a small 7-day click trend line next to the click count, built from the `clicks` table grouped by day, rendered with `recharts`.
 
 ### 2.3 Analytics page
-- [ ] A dedicated `/dashboard/analytics` page shows aggregate charts (clicks over time across all links, top 5 links by clicks).
+- [x] A dedicated `/dashboard/analytics` page shows aggregate charts (clicks over time across all links, top 5 links by clicks).
 - [ ] Optional: click geography using the free `ip-api.com` non-commercial endpoint to resolve `country` on each click at redirect time. This is a nice-to-have — skip it entirely if free-tier request limits are a concern; the app is fully functional without it.
 
 ### 2.4 Settings page
