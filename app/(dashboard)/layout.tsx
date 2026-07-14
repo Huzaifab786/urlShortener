@@ -1,4 +1,5 @@
 import { ClaimPendingOnMount } from "@/components/auth/claim-pending-on-mount";
+import { CreateLinkProvider } from "@/components/dashboard/create-link-provider";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { createClient } from "@/lib/supabase/server";
 
@@ -20,12 +21,14 @@ export default async function DashboardLayout({
     "Account";
 
   return (
-    <div className="flex min-h-screen items-stretch bg-background">
-      <ClaimPendingOnMount />
-      <Sidebar email={email} displayName={displayName} />
-      <main className="flex min-h-screen min-w-0 flex-1 flex-col overflow-y-auto">
-        {children}
-      </main>
-    </div>
+    <CreateLinkProvider>
+      <div className="flex min-h-screen items-stretch bg-background">
+        <ClaimPendingOnMount />
+        <Sidebar email={email} displayName={displayName} />
+        <main className="flex min-h-screen min-w-0 flex-1 flex-col overflow-y-auto">
+          {children}
+        </main>
+      </div>
+    </CreateLinkProvider>
   );
 }

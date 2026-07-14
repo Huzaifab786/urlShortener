@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Plus } from "lucide-react";
 
+import { CreateLinkButton } from "@/components/dashboard/create-link-button";
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { LinksTable } from "@/components/dashboard/links-table";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { Button } from "@/components/ui/button";
 import { getDashboardData } from "@/lib/data/links";
 import { formatShortUrl } from "@/lib/dashboard/types";
 
@@ -38,15 +37,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             Manage and track your shortened URLs.
           </p>
         </div>
-        <Button
-          type="button"
-          className="shrink-0 rounded-lg self-start sm:self-auto"
-          disabled
-          title="Create modal comes in the next phase"
-        >
-          <Plus className="size-4" />
-          New Link
-        </Button>
+        <CreateLinkButton className="shrink-0 self-start sm:self-auto" />
       </header>
 
       <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">

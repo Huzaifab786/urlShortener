@@ -1,6 +1,8 @@
-import { Link2, Plus } from "lucide-react";
+"use client";
 
-import { Button } from "@/components/ui/button";
+import { Link2 } from "lucide-react";
+
+import { CreateLinkButton } from "@/components/dashboard/create-link-button";
 
 export function EmptyState() {
   return (
@@ -16,22 +18,7 @@ export function EmptyState() {
         Create your first shortened link to start tracking clicks and managing
         URLs in one place.
       </p>
-      <Button
-        type="button"
-        className="rounded-lg"
-        disabled
-        title="Create modal comes in the next phase"
-      >
-        <Plus className="size-4" />
-        Create your first shortened link
-      </Button>
-      <p className="mt-4 text-xs text-muted-foreground">
-        Or shorten a URL on the{" "}
-        <a href="/" className="font-medium text-primary hover:underline">
-          landing page
-        </a>{" "}
-        while signed in.
-      </p>
+      <CreateLinkButton label="Create your first shortened link" />
     </div>
   );
 }

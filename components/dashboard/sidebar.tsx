@@ -5,7 +5,6 @@ import {
   Link2,
   LogOut,
   Menu,
-  Plus,
   Settings,
   X,
 } from "lucide-react";
@@ -13,6 +12,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
+import { CreateLinkButton } from "@/components/dashboard/create-link-button";
 import { signOut } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -48,15 +48,11 @@ export function Sidebar({ email, displayName }: SidebarProps) {
         </div>
       </div>
 
-      <Button
-        type="button"
-        className="mb-6 w-full rounded-lg"
-        disabled
-        title="Create modal comes in the next phase"
-      >
-        <Plus className="size-4" />
-        Create New Link
-      </Button>
+      <CreateLinkButton
+        className="mb-6"
+        label="Create New Link"
+        fullWidth
+      />
 
       <nav className="flex flex-1 flex-col gap-1">
         {navItems.map(({ href, label, icon: Icon, ...rest }) => {

@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies, headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
@@ -105,6 +106,23 @@ export async function createLink(
       };
     }
 
+    const reserved = new Set([
+      "dashboard",
+      "sign-in",
+      "sign-up",
+      "auth",
+      "api",
+      "settings",
+      "analytics",
+    ]);
+    if (reserved.has(alias.toLowerCase())) {
+      return {
+        success: false,
+        error: "That short link is reserved",
+        fieldErrors: { customAlias: "That short link is reserved" },
+      };
+    }
+
     if (await isShortCodeTaken(alias)) {
       return {
         success: false,
@@ -143,14 +161,16 @@ export async function createLink(
   }
 
   if (isAnonymous) {
-    const siteUrl = getSiteUrl();
+    const cookieSiteUrl = getSiteUrl();
     cookies().set("snipp_pending_claim", shortCode, {
       maxAge: 60 * 60 * 24,
       httpOnly: true,
       sameSite: "lax",
       path: "/",
-      secure: siteUrl.startsWith("https://"),
+      secure: cookieSiteUrl.startsWith("https://"),
     });
+  } else {
+    revalidatePath("/dashboard");
   }
 
   const siteUrl = getSiteUrl();
