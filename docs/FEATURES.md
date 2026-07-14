@@ -11,37 +11,37 @@ below is free for every user, always.
 ## Phase 1 — MVP (core loop must work end-to-end before touching Phase 2)
 
 ### 1.1 Landing page shorten (anonymous, no login)
-- [ ] Visiting `/` shows the hero, input field, and shorten button matching the approved Stitch design (dot-grid background, typing-effect headline, monospace live counter).
-- [ ] Pasting a valid URL and clicking "Shorten" creates a row in `links` with `user_id = null` and shows the result-state receipt card in place of the form (no page navigation).
-- [ ] Pasting an invalid string (not a URL) shows an inline validation error and does not hit the database.
-- [ ] Rate limit: after 5 anonymous shortens from the same IP in one day, show an error asking the user to sign in instead of creating another link.
-- [ ] The result card shows: the short URL (monospace), a working "Copy Link" button (uses the Clipboard API, shows a brief "Copied!" confirmation), the QR code (generated with the `qrcode` package, no external API call), the truncated original URL, and a "Sign in to Save" button.
-- [ ] "Shorten another link" resets back to the empty form state.
+- [x] Visiting `/` shows the hero, input field, and shorten button matching the approved Stitch design (dot-grid background, typing-effect headline, monospace live counter).
+- [x] Pasting a valid URL and clicking "Shorten" creates a row in `links` with `user_id = null` and shows the result-state receipt card in place of the form (no page navigation).
+- [x] Pasting an invalid string (not a URL) shows an inline validation error and does not hit the database.
+- [x] Rate limit: after 5 anonymous shortens from the same IP in one day, show an error asking the user to sign in instead of creating another link.
+- [x] The result card shows: the short URL (monospace), a working "Copy Link" button (uses the Clipboard API, shows a brief "Copied!" confirmation), the QR code (generated with the `qrcode` package, no external API call), the truncated original URL, and a "Sign in to Save" button.
+- [x] "Shorten another link" resets back to the empty form state.
 
 ### 1.2 Authentication
-- [ ] `/sign-in` and `/sign-up` pages match the approved design (centered card, email/password fields, Google + GitHub buttons).
-- [ ] Email/password sign-up creates a Supabase Auth user and redirects to `/dashboard`.
-- [ ] Email/password sign-in works and redirects to `/dashboard`.
+- [x] `/sign-in` and `/sign-up` pages match the approved design (centered card, email/password fields, Google + GitHub buttons).
+- [x] Email/password sign-up creates a Supabase Auth user and redirects to `/dashboard`.
+- [x] Email/password sign-in works and redirects to `/dashboard`.
 - [ ] Google OAuth and GitHub OAuth both work end-to-end (requires creating free OAuth apps in Google Cloud Console and GitHub Developer Settings, and adding the credentials in the Supabase Dashboard → Authentication → Providers).
-- [ ] Signing out clears the session and redirects to `/`.
-- [ ] Visiting `/dashboard` while signed out redirects to `/sign-in` (enforced in `middleware.ts`).
+- [x] Signing out clears the session and redirects to `/`.
+- [x] Visiting `/dashboard` while signed out redirects to `/sign-in` (enforced in `middleware.ts`).
 
 ### 1.3 Claiming an anonymous link
-- [ ] If a user shortens a link anonymously, then signs up or signs in within the same browser session, that link is automatically attached to their new account (via the `snipp_pending_claim` cookie flow described in `ARCHITECTURE.md`).
-- [ ] A link that already belongs to another user can never be claimed by a different user (enforced by the RLS "claim" policy, not just app logic).
+- [x] If a user shortens a link anonymously, then signs up or signs in within the same browser session, that link is automatically attached to their new account (via the `snipp_pending_claim` cookie flow described in `ARCHITECTURE.md`).
+- [x] A link that already belongs to another user can never be claimed by a different user (enforced by the RLS "claim" policy, not just app logic).
 
 ### 1.4 Dashboard — viewing links
-- [ ] `/dashboard` shows a sidebar (logo, "+ Create New Link" button, nav: Links/Analytics/Settings, user profile row at the bottom) matching the approved design.
-- [ ] The Links tab shows three stat cards: Total Links, Total Clicks (30 days), Top Performing link.
-- [ ] The links table shows: Name + tag pill, Short URL (monospace, clickable — copies to clipboard), Original URL (truncated), Clicks, Created date, Action icons (copy/edit/delete).
-- [ ] If the user has zero links, show the empty state (custom illustration + "No links yet" + "Create your first shortened link" + button) instead of an empty table.
-- [ ] Table is paginated (matches the approved design's pagination control) once a user has more than a set page size (suggested: 10 per page).
+- [x] `/dashboard` shows a sidebar (logo, "+ Create New Link" button, nav: Links/Analytics/Settings, user profile row at the bottom) matching the approved design.
+- [x] The Links tab shows three stat cards: Total Links, Total Clicks (30 days), Top Performing link.
+- [x] The links table shows: Name + tag pill, Short URL (monospace, clickable — copies to clipboard), Original URL (truncated), Clicks, Created date, Action icons (copy/edit/delete).
+- [x] If the user has zero links, show the empty state (custom illustration + "No links yet" + "Create your first shortened link" + button) instead of an empty table.
+- [x] Table is paginated (matches the approved design's pagination control) once a user has more than a set page size (suggested: 10 per page).
 
 ### 1.5 Dashboard — creating a link
-- [ ] "+ Create New Link" opens the modal matching the approved design: Destination URL (required), Custom Short Link (optional, prefixed with the site's domain), Link Title (optional).
-- [ ] If Custom Short Link is left blank, a random short code is generated.
-- [ ] If a Custom Short Link is entered and it's already taken, show an inline error before submission completes.
-- [ ] On success, the modal closes and the new link appears in the table immediately without a full page reload.
+- [x] "+ Create New Link" opens the modal matching the approved design: Destination URL (required), Custom Short Link (optional, prefixed with the site's domain), Link Title (optional).
+- [x] If Custom Short Link is left blank, a random short code is generated.
+- [x] If a Custom Short Link is entered and it's already taken, show an inline error before submission completes.
+- [x] On success, the modal closes and the new link appears in the table immediately without a full page reload.
 
 ### 1.6 Dashboard — editing and deleting a link
 - [ ] Edit action reopens the create-link modal pre-filled with the link's current values; saving updates the existing row (does not create a duplicate).
