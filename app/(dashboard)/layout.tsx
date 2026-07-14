@@ -1,3 +1,4 @@
+import { ClaimPendingOnMount } from "@/components/auth/claim-pending-on-mount";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <ClaimPendingOnMount />
       <header className="flex h-14 items-center justify-between border-b border-border bg-card px-4 md:px-6">
         <Logo href="/dashboard" />
         <div className="flex items-center gap-3">

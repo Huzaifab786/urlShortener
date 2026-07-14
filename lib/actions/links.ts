@@ -143,11 +143,13 @@ export async function createLink(
   }
 
   if (isAnonymous) {
+    const siteUrl = getSiteUrl();
     cookies().set("snipp_pending_claim", shortCode, {
       maxAge: 60 * 60 * 24,
       httpOnly: true,
       sameSite: "lax",
       path: "/",
+      secure: siteUrl.startsWith("https://"),
     });
   }
 
@@ -161,7 +163,21 @@ export async function createLink(
   };
 }
 
-/** Claim a specific unclaimed link for the signed-in user. */
+function clearClaimCookie() {
+  const siteUrl = getSiteUrl();
+  cookies().set("snipp_pending_claim", "", {
+    maxAge: 0,
+    path: "/",
+    sameSite: "lax",
+    secure: siteUrl.startsWith("https://"),
+  });
+}
+
+/**
+ * Claim a specific unclaimed link for the signed-in user.
+ * Uses the service-role client for the update after auth checks — Postgres RLS
+ * UPDATE can match 0 rows with no error when policies conflict on null → uid.
+ */
 export async function claimLink(shortCode: string): Promise<{
   success: boolean;
   error?: string;
@@ -175,47 +191,62 @@ export async function claimLink(shortCode: string): Promise<{
     return { success: false, error: "You must be signed in to claim a link" };
   }
 
+  const code = shortCode.trim();
+  if (!code) {
+    return { success: false, error: "Missing short code" };
+  }
+
   const admin = createAdminClient();
   const { data: link } = await admin
     .from("links")
     .select("id, user_id")
-    .eq("short_code", shortCode)
+    .eq("short_code", code)
     .maybeSingle();
 
   if (!link) {
     return { success: false, error: "Link not found" };
   }
 
+  // Already owned by this user — treat as success (idempotent).
+  if (link.user_id === user.id) {
+    clearClaimCookie();
+    return { success: true };
+  }
+
   if (link.user_id !== null) {
     return { success: false, error: "This link already belongs to someone" };
   }
 
-  const { error } = await supabase
+  const { data: updated, error } = await admin
     .from("links")
     .update({ user_id: user.id })
-    .eq("short_code", shortCode)
-    .is("user_id", null);
+    .eq("short_code", code)
+    .is("user_id", null)
+    .select("id")
+    .maybeSingle();
 
-  if (error) {
+  if (error || !updated) {
     return { success: false, error: "Unable to claim this link" };
   }
 
-  cookies().set("snipp_pending_claim", "", {
-    maxAge: 0,
-    path: "/",
-  });
-
+  clearClaimCookie();
   return { success: true };
 }
 
-/** Reads snipp_pending_claim cookie and claims if present (httpOnly — server only). */
-export async function claimPendingLink(): Promise<{
+/**
+ * Claims using an explicit short code and/or the snipp_pending_claim cookie.
+ * Prefer the explicit code (from localStorage) when the httpOnly cookie is missing.
+ */
+export async function claimPendingLink(explicitCode?: string | null): Promise<{
   success: boolean;
   error?: string;
 }> {
-  const shortCode = cookies().get("snipp_pending_claim")?.value;
+  const fromCookie = cookies().get("snipp_pending_claim")?.value;
+  const shortCode = explicitCode?.trim() || fromCookie;
+
   if (!shortCode) {
     return { success: true };
   }
+
   return claimLink(shortCode);
 }

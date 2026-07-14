@@ -12,6 +12,10 @@ import { Input } from "@/components/ui/input";
 import { completeAuthRedirect } from "@/lib/actions/auth";
 import { createClient } from "@/lib/supabase/client";
 import {
+  clearPendingClaim,
+  readPendingClaim,
+} from "@/lib/utils/pending-claim";
+import {
   signInSchema,
   type SignInInput,
 } from "@/lib/validations/auth";
@@ -38,7 +42,9 @@ export function SignInForm() {
       return;
     }
 
-    await completeAuthRedirect();
+    const pending = readPendingClaim();
+    clearPendingClaim();
+    await completeAuthRedirect(pending);
   }
 
   return (
