@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+import type { EditableLink } from "@/components/dashboard/create-link-provider";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,7 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createLink } from "@/lib/actions/links";
+import { createLink, updateLink } from "@/lib/actions/links";
 import { getSiteUrl } from "@/lib/dashboard/types";
 import {
   createLinkSchema,
@@ -30,28 +31,44 @@ function siteHostPrefix() {
 export function CreateLinkModal({
   open,
   onOpenChange,
+  editingLink,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  editingLink: EditableLink | null;
 }) {
   const router = useRouter();
+  const isEditing = Boolean(editingLink);
+
   const form = useForm<CreateLinkInput>({
     resolver: zodResolver(createLinkSchema),
     defaultValues: { url: "", customAlias: "", title: "" },
   });
 
   useEffect(() => {
-    if (open) {
+    if (!open) return;
+
+    if (editingLink) {
+      form.reset({
+        url: editingLink.original_url,
+        customAlias: editingLink.short_code,
+        title: editingLink.title ?? "",
+      });
+    } else {
       form.reset({ url: "", customAlias: "", title: "" });
     }
-  }, [open, form]);
+  }, [open, editingLink, form]);
 
   async function onSubmit(values: CreateLinkInput) {
-    const response = await createLink({
+    const payload = {
       url: values.url,
       customAlias: values.customAlias?.trim() || undefined,
       title: values.title?.trim() || undefined,
-    });
+    };
+
+    const response = isEditing && editingLink
+      ? await updateLink({ ...payload, id: editingLink.id })
+      : await createLink(payload);
 
     if (!response.success) {
       if (response.fieldErrors?.url) {
@@ -84,7 +101,7 @@ export function CreateLinkModal({
       <DialogContent className="gap-0 overflow-hidden p-0 sm:max-w-[500px]">
         <DialogHeader className="border-b border-border bg-card px-6 py-4">
           <DialogTitle className="text-xl font-semibold tracking-tight">
-            Create New Link
+            {isEditing ? "Edit Link" : "Create New Link"}
           </DialogTitle>
         </DialogHeader>
 
@@ -117,7 +134,7 @@ export function CreateLinkModal({
               <Label htmlFor="create-alias">
                 Custom Short Link{" "}
                 <span className="text-xs font-normal text-muted-foreground">
-                  (Optional)
+                  {isEditing ? "" : "(Optional)"}
                 </span>
               </Label>
               <div className="flex overflow-hidden rounded-lg border border-input focus-within:ring-1 focus-within:ring-ring">
@@ -138,7 +155,9 @@ export function CreateLinkModal({
                 </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
-                  Leave blank to generate a random code.
+                  {isEditing
+                    ? "Change the short code or keep the current one."
+                    : "Leave blank to generate a random code."}
                 </p>
               )}
             </div>
@@ -185,8 +204,10 @@ export function CreateLinkModal({
               {form.formState.isSubmitting ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
-                  Creating…
+                  {isEditing ? "Saving…" : "Creating…"}
                 </>
+              ) : isEditing ? (
+                "Save Changes"
               ) : (
                 <>
                   Create Link

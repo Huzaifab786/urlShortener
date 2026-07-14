@@ -44,9 +44,9 @@ below is free for every user, always.
 - [x] On success, the modal closes and the new link appears in the table immediately without a full page reload.
 
 ### 1.6 Dashboard — editing and deleting a link
-- [ ] Edit action reopens the create-link modal pre-filled with the link's current values; saving updates the existing row (does not create a duplicate).
-- [ ] Delete action shows a confirmation before deleting (a simple confirm dialog is sufficient — doesn't need to match a specific mockup).
-- [ ] A user can only ever edit or delete their own links — verified against the RLS policy, not just hidden in the UI.
+- [x] Edit action reopens the create-link modal pre-filled with the link's current values; saving updates the existing row (does not create a duplicate).
+- [x] Delete action shows a confirmation before deleting (a simple confirm dialog is sufficient — doesn't need to match a specific mockup).
+- [x] A user can only ever edit or delete their own links — verified against the RLS policy, not just hidden in the UI.
 
 ### 1.7 Redirect handling
 - [ ] Visiting `<site>/<shortCode>` for a valid code redirects (HTTP 307) to the original URL.

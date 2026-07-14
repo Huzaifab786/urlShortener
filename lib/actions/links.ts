@@ -2,6 +2,7 @@
 
 import { cookies, headers } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
@@ -13,7 +14,7 @@ import {
   generateUniqueShortCode,
   isShortCodeTaken,
 } from "@/lib/utils/shortcode";
-import { createLinkSchema } from "@/lib/validations/links";
+import { createLinkSchema, updateLinkSchema } from "@/lib/validations/links";
 
 export type CreateLinkResult =
   | {
@@ -27,6 +28,16 @@ export type CreateLinkResult =
       error: string;
       fieldErrors?: Partial<Record<"url" | "customAlias" | "title", string>>;
     };
+
+const RESERVED_ALIASES = new Set([
+  "dashboard",
+  "sign-in",
+  "sign-up",
+  "auth",
+  "api",
+  "settings",
+  "analytics",
+]);
 
 function getSiteUrl() {
   return (
@@ -106,15 +117,7 @@ export async function createLink(
       };
     }
 
-    const reserved = new Set([
-      "dashboard",
-      "sign-in",
-      "sign-up",
-      "auth",
-      "api",
-      "settings",
-      "analytics",
-    ]);
+    const reserved = RESERVED_ALIASES;
     if (reserved.has(alias.toLowerCase())) {
       return {
         success: false,
@@ -181,6 +184,155 @@ export async function createLink(
     originalUrl: url,
     shortUrl: `${siteUrl}/${shortCode}`,
   };
+}
+
+export async function updateLink(
+  rawInput: unknown
+): Promise<CreateLinkResult> {
+  const parsed = updateLinkSchema.safeParse(rawInput);
+
+  if (!parsed.success) {
+    const fieldErrors: Partial<
+      Record<"url" | "customAlias" | "title", string>
+    > = {};
+
+    for (const issue of parsed.error.issues) {
+      const key = issue.path[0];
+      if (key === "url" || key === "customAlias" || key === "title") {
+        fieldErrors[key] = issue.message;
+      }
+    }
+
+    return {
+      success: false,
+      error: parsed.error.issues[0]?.message ?? "Invalid input",
+      fieldErrors,
+    };
+  }
+
+  const { id, url, customAlias, title } = parsed.data;
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { success: false, error: "You must be signed in to edit a link" };
+  }
+
+  const { data: existing, error: fetchError } = await supabase
+    .from("links")
+    .select("id, short_code, is_custom_alias, user_id")
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (fetchError || !existing) {
+    return { success: false, error: "Link not found" };
+  }
+
+  const alias = customAlias?.trim() || "";
+  let shortCode = existing.short_code;
+  let isCustomAlias = existing.is_custom_alias;
+
+  if (alias && alias !== existing.short_code) {
+    if (RESERVED_ALIASES.has(alias.toLowerCase())) {
+      return {
+        success: false,
+        error: "That short link is reserved",
+        fieldErrors: { customAlias: "That short link is reserved" },
+      };
+    }
+
+    if (await isShortCodeTaken(alias, id)) {
+      return {
+        success: false,
+        error: "That short link is already taken",
+        fieldErrors: { customAlias: "That short link is already taken" },
+      };
+    }
+
+    shortCode = alias;
+    isCustomAlias = true;
+  }
+
+  const { data: updated, error } = await supabase
+    .from("links")
+    .update({
+      original_url: url,
+      short_code: shortCode,
+      is_custom_alias: isCustomAlias,
+      title: title?.trim() || null,
+    })
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .select("id")
+    .maybeSingle();
+
+  if (error) {
+    if (error.code === "23505") {
+      return {
+        success: false,
+        error: "That short link is already taken",
+        fieldErrors: { customAlias: "That short link is already taken" },
+      };
+    }
+    return {
+      success: false,
+      error: "Unable to update link right now. Please try again.",
+    };
+  }
+
+  if (!updated) {
+    return { success: false, error: "Link not found" };
+  }
+
+  revalidatePath("/dashboard");
+
+  const siteUrl = getSiteUrl();
+  return {
+    success: true,
+    shortCode,
+    originalUrl: url,
+    shortUrl: `${siteUrl}/${shortCode}`,
+  };
+}
+
+export async function deleteLink(
+  linkId: string
+): Promise<{ success: boolean; error?: string }> {
+  const parsed = z.string().uuid().safeParse(linkId);
+  if (!parsed.success) {
+    return { success: false, error: "Invalid link id" };
+  }
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { success: false, error: "You must be signed in to delete a link" };
+  }
+
+  const { data: deleted, error } = await supabase
+    .from("links")
+    .delete()
+    .eq("id", parsed.data)
+    .eq("user_id", user.id)
+    .select("id")
+    .maybeSingle();
+
+  if (error) {
+    return { success: false, error: "Unable to delete link right now." };
+  }
+
+  if (!deleted) {
+    return { success: false, error: "Link not found" };
+  }
+
+  revalidatePath("/dashboard");
+  return { success: true };
 }
 
 function clearClaimCookie() {

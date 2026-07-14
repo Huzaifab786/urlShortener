@@ -10,9 +10,18 @@ import {
 
 import { CreateLinkModal } from "@/components/dashboard/create-link-modal";
 
+export type EditableLink = {
+  id: string;
+  original_url: string;
+  short_code: string;
+  title: string | null;
+};
+
 type CreateLinkContextValue = {
   open: boolean;
+  editingLink: EditableLink | null;
   openCreateLink: () => void;
+  openEditLink: (link: EditableLink) => void;
   closeCreateLink: () => void;
 };
 
@@ -24,19 +33,49 @@ export function CreateLinkProvider({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const [editingLink, setEditingLink] = useState<EditableLink | null>(null);
 
-  const openCreateLink = useCallback(() => setOpen(true), []);
-  const closeCreateLink = useCallback(() => setOpen(false), []);
+  const openCreateLink = useCallback(() => {
+    setEditingLink(null);
+    setOpen(true);
+  }, []);
+
+  const openEditLink = useCallback((link: EditableLink) => {
+    setEditingLink(link);
+    setOpen(true);
+  }, []);
+
+  const closeCreateLink = useCallback(() => {
+    setOpen(false);
+    setEditingLink(null);
+  }, []);
+
+  function handleOpenChange(next: boolean) {
+    setOpen(next);
+    if (!next) {
+      setEditingLink(null);
+    }
+  }
 
   const value = useMemo(
-    () => ({ open, openCreateLink, closeCreateLink }),
-    [open, openCreateLink, closeCreateLink]
+    () => ({
+      open,
+      editingLink,
+      openCreateLink,
+      openEditLink,
+      closeCreateLink,
+    }),
+    [open, editingLink, openCreateLink, openEditLink, closeCreateLink]
   );
 
   return (
     <CreateLinkContext.Provider value={value}>
       {children}
-      <CreateLinkModal open={open} onOpenChange={setOpen} />
+      <CreateLinkModal
+        open={open}
+        onOpenChange={handleOpenChange}
+        editingLink={editingLink}
+      />
     </CreateLinkContext.Provider>
   );
 }

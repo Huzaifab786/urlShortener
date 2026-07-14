@@ -22,4 +22,9 @@ export const createLinkSchema = z.object({
   title: z.string().trim().max(120, "Title is too long").optional(),
 });
 
+export const updateLinkSchema = createLinkSchema.extend({
+  id: z.string().uuid("Invalid link id"),
+});
+
 export type CreateLinkInput = z.infer<typeof createLinkSchema>;
+export type UpdateLinkInput = z.infer<typeof updateLinkSchema>;

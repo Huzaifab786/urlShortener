@@ -25,13 +25,20 @@ export async function generateUniqueShortCode(): Promise<string> {
   return generate();
 }
 
-export async function isShortCodeTaken(shortCode: string): Promise<boolean> {
+export async function isShortCodeTaken(
+  shortCode: string,
+  excludeLinkId?: string
+): Promise<boolean> {
   const admin = createAdminClient();
-  const { data } = await admin
+  let query = admin
     .from("links")
     .select("id")
-    .eq("short_code", shortCode)
-    .maybeSingle();
+    .eq("short_code", shortCode);
 
+  if (excludeLinkId) {
+    query = query.neq("id", excludeLinkId);
+  }
+
+  const { data } = await query.maybeSingle();
   return Boolean(data);
 }
