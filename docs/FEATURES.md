@@ -70,7 +70,7 @@ below is free for every user, always.
 - [ ] Optional: click geography using the free `ip-api.com` non-commercial endpoint to resolve `country` on each click at redirect time. This is a nice-to-have — skip it entirely if free-tier request limits are a concern; the app is fully functional without it.
 
 ### 2.4 Settings page
-- [ ] Account settings: change password, view connected OAuth providers, delete account.
+- [x] Account settings: change password, view connected OAuth providers, delete account.
 
 ---
 
