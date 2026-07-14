@@ -1,8 +1,14 @@
 import type { Database, LinkTag } from "@/types/database";
 
+export type SparkPoint = {
+  day: string;
+  clicks: number;
+};
+
 export type DashboardLink = Database["public"]["Tables"]["links"]["Row"] & {
   click_count: number;
   clicks_30d: number;
+  clicks_7d: SparkPoint[];
 };
 
 export type DashboardStats = {

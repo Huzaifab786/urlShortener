@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useCreateLinkModal } from "@/components/dashboard/create-link-provider";
 import { LinksPagination } from "@/components/dashboard/links-pagination";
 import { LinksToolbar } from "@/components/dashboard/links-toolbar";
+import { Sparkline } from "@/components/dashboard/sparkline";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -216,9 +217,12 @@ export function LinksTable({
                         </div>
                       </td>
                       <td className="px-4 py-4 align-top">
-                        <span className="font-mono text-sm text-foreground">
-                          {link.click_count.toLocaleString()}
-                        </span>
+                        <div className="flex items-center gap-2.5">
+                          <span className="min-w-[2ch] font-mono text-sm tabular-nums text-foreground">
+                            {link.click_count.toLocaleString()}
+                          </span>
+                          <Sparkline data={link.clicks_7d} />
+                        </div>
                       </td>
                       <td className="px-4 py-4 align-top">
                         <span className="text-sm text-muted-foreground">

@@ -5,6 +5,7 @@ import {
   LINKS_PAGE_SIZE,
   type DashboardLink,
   type DashboardStats,
+  type SparkPoint,
 } from "@/lib/dashboard/types";
 
 export type LinksFilter = "all" | "active" | "archived";
@@ -14,6 +15,31 @@ export type DashboardQuery = {
   q?: string;
   filter?: LinksFilter;
 };
+
+function formatDayKey(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function emptySevenDaySeries(): SparkPoint[] {
+  const series: SparkPoint[] = [];
+  for (let i = 6; i >= 0; i--) {
+    const day = new Date();
+    day.setHours(0, 0, 0, 0);
+    day.setDate(day.getDate() - i);
+    series.push({ day: formatDayKey(day), clicks: 0 });
+  }
+  return series;
+}
+
+function sevenDayWindowStart(): Date {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  start.setDate(start.getDate() - 6);
+  return start;
+}
 
 export async function getDashboardData({
   page = 1,
@@ -63,9 +89,11 @@ export async function getDashboardData({
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   const thirtyDaysIso = thirtyDaysAgo.toISOString();
+  const sparkStart = sevenDayWindowStart();
 
   const clickCounts = new Map<string, number>();
   const clickCounts30d = new Map<string, number>();
+  const sparkMaps = new Map<string, Map<string, number>>();
 
   if (linkIds.length > 0) {
     const { data: clicks } = await supabase
@@ -84,14 +112,37 @@ export async function getDashboardData({
           (clickCounts30d.get(click.link_id) ?? 0) + 1
         );
       }
+
+      const clickedAt = new Date(click.clicked_at);
+      if (clickedAt >= sparkStart) {
+        const dayKey = formatDayKey(clickedAt);
+        let byDay = sparkMaps.get(click.link_id);
+        if (!byDay) {
+          byDay = new Map();
+          sparkMaps.set(click.link_id, byDay);
+        }
+        byDay.set(dayKey, (byDay.get(dayKey) ?? 0) + 1);
+      }
     }
   }
 
-  const withCounts: DashboardLink[] = allLinks.map((link) => ({
-    ...link,
-    click_count: clickCounts.get(link.id) ?? 0,
-    clicks_30d: clickCounts30d.get(link.id) ?? 0,
-  }));
+  const withCounts: DashboardLink[] = allLinks.map((link) => {
+    const template = emptySevenDaySeries();
+    const byDay = sparkMaps.get(link.id);
+    const clicks_7d = byDay
+      ? template.map((point) => ({
+          day: point.day,
+          clicks: byDay.get(point.day) ?? 0,
+        }))
+      : template;
+
+    return {
+      ...link,
+      click_count: clickCounts.get(link.id) ?? 0,
+      clicks_30d: clickCounts30d.get(link.id) ?? 0,
+      clicks_7d,
+    };
+  });
 
   const totalClicks30d = withCounts.reduce((sum, l) => sum + l.clicks_30d, 0);
 

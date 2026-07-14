@@ -63,7 +63,7 @@ below is free for every user, always.
 - [x] Archive/unarchive action toggles `is_archived` on a link without deleting it.
 
 ### 2.2 Sparklines
-- [ ] Each row in the links table shows a small 7-day click trend line next to the click count, built from the `clicks` table grouped by day, rendered with `recharts`.
+- [x] Each row in the links table shows a small 7-day click trend line next to the click count, built from the `clicks` table grouped by day, rendered with `recharts`.
 
 ### 2.3 Analytics page
 - [ ] A dedicated `/dashboard/analytics` page shows aggregate charts (clicks over time across all links, top 5 links by clicks).
