@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createLink } from "@/lib/actions/links";
 import { getFaviconUrl, tryExtractDomain } from "@/lib/utils/favicon";
+import { savePendingClaim } from "@/lib/utils/pending-claim";
 import {
   createLinkSchema,
   type CreateLinkInput,
@@ -44,6 +45,9 @@ export function ShortenForm() {
       setServerError(response.error);
       return;
     }
+
+    // Backup for claim-after-auth if the httpOnly cookie isn't available later
+    savePendingClaim(response.shortCode);
 
     setResult({
       shortCode: response.shortCode,
