@@ -37,6 +37,7 @@ const RESERVED_ALIASES = new Set([
   "api",
   "settings",
   "analytics",
+  "link-not-found",
 ]);
 
 function getSiteUrl() {

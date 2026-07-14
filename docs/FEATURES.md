@@ -49,9 +49,9 @@ below is free for every user, always.
 - [x] A user can only ever edit or delete their own links — verified against the RLS policy, not just hidden in the UI.
 
 ### 1.7 Redirect handling
-- [ ] Visiting `<site>/<shortCode>` for a valid code redirects (HTTP 307) to the original URL.
-- [ ] Each successful redirect inserts one row into `clicks`.
-- [ ] Visiting `<site>/<shortCode>` for a code that doesn't exist shows a branded "Link not found" page, not a raw Next.js 404.
+- [x] Visiting `<site>/<shortCode>` for a valid code redirects (HTTP 307) to the original URL.
+- [x] Each successful redirect inserts one row into `clicks`.
+- [x] Visiting `<site>/<shortCode>` for a code that doesn't exist shows a branded "Link not found" page, not a raw Next.js 404.
 
 ---
 
