@@ -1,8 +1,6 @@
 import { ClaimPendingOnMount } from "@/components/auth/claim-pending-on-mount";
+import { Sidebar } from "@/components/dashboard/sidebar";
 import { createClient } from "@/lib/supabase/server";
-import { signOut } from "@/lib/actions/auth";
-import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/shared/logo";
 
 export default async function DashboardLayout({
   children,
@@ -14,23 +12,20 @@ export default async function DashboardLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
+  const email = user?.email ?? undefined;
+  const displayName =
+    (user?.user_metadata?.full_name as string | undefined) ||
+    (user?.user_metadata?.name as string | undefined) ||
+    email?.split("@")[0] ||
+    "Account";
+
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex min-h-screen bg-background">
       <ClaimPendingOnMount />
-      <header className="flex h-14 items-center justify-between border-b border-border bg-card px-4 md:px-6">
-        <Logo href="/dashboard" />
-        <div className="flex items-center gap-3">
-          <span className="hidden max-w-[200px] truncate text-sm text-muted-foreground sm:inline">
-            {user?.email}
-          </span>
-          <form action={signOut}>
-            <Button type="submit" variant="outline" size="sm" className="rounded-lg">
-              Sign out
-            </Button>
-          </form>
-        </div>
-      </header>
-      <main className="flex-1 p-4 md:p-6">{children}</main>
+      <Sidebar email={email} displayName={displayName} />
+      <main className="flex min-h-screen flex-1 flex-col overflow-y-auto">
+        {children}
+      </main>
     </div>
   );
 }
