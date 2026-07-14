@@ -1,11 +1,12 @@
 "use client";
 
-import { Check, Copy, Loader2, Pencil, Trash2 } from "lucide-react";
+import { Check, Copy, Loader2, Archive, ArchiveRestore, Pencil, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { useCreateLinkModal } from "@/components/dashboard/create-link-provider";
 import { LinksPagination } from "@/components/dashboard/links-pagination";
+import { LinksToolbar } from "@/components/dashboard/links-toolbar";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +17,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { deleteLink } from "@/lib/actions/links";
+import { deleteLink, setLinkArchived } from "@/lib/actions/links";
+import type { LinksFilter } from "@/lib/data/links";
 import {
   absoluteShortUrl,
   formatShortUrl,
@@ -83,11 +85,17 @@ export function LinksTable({
   page,
   pageSize,
   totalCount,
+  filter,
+  q,
+  queryString,
 }: {
   links: DashboardLink[];
   page: number;
   pageSize: number;
   totalCount: number;
+  filter: LinksFilter;
+  q: string;
+  queryString: string;
 }) {
   const router = useRouter();
   const { openEditLink } = useCreateLinkModal();
@@ -96,6 +104,7 @@ export function LinksTable({
   );
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [archivingId, setArchivingId] = useState<string | null>(null);
 
   async function confirmDelete() {
     if (!pendingDelete) return;
@@ -114,135 +123,168 @@ export function LinksTable({
     router.refresh();
   }
 
+  async function toggleArchive(link: DashboardLink) {
+    setArchivingId(link.id);
+    await setLinkArchived(link.id, !link.is_archived);
+    setArchivingId(null);
+    router.refresh();
+  }
+
   return (
     <>
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] border-collapse text-left">
-            <thead>
-              <tr className="border-b border-border bg-background">
-                {[
-                  "Name",
-                  "Short URL",
-                  "Original URL",
-                  "Clicks",
-                  "Created",
-                  "Actions",
-                ].map((heading) => (
-                  <th
-                    key={heading}
-                    className={cn(
-                      "px-4 py-3 text-[13px] font-medium text-muted-foreground",
-                      heading === "Actions" && "text-right"
-                    )}
-                  >
-                    {heading}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {links.map((link) => {
-                const label =
-                  link.title?.trim() ||
-                  truncate(link.original_url, 36) ||
-                  link.short_code;
-                const tag = tagLabel(link.tag);
+        <LinksToolbar currentFilter={filter} />
+        {links.length === 0 ? (
+          <div className="px-4 py-12 text-center text-sm text-muted-foreground">
+            No links match this filter
+            {q.trim() ? ` for “${q.trim()}”` : ""}.
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[800px] border-collapse text-left">
+              <thead>
+                <tr className="border-b border-border bg-background">
+                  {[
+                    "Name",
+                    "Short URL",
+                    "Original URL",
+                    "Clicks",
+                    "Created",
+                    "Actions",
+                  ].map((heading) => (
+                    <th
+                      key={heading}
+                      className={cn(
+                        "px-4 py-3 text-[13px] font-medium text-muted-foreground",
+                        heading === "Actions" && "text-right"
+                      )}
+                    >
+                      {heading}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {links.map((link) => {
+                  const label =
+                    link.title?.trim() ||
+                    truncate(link.original_url, 36) ||
+                    link.short_code;
+                  const tag = tagLabel(link.tag);
 
-                return (
-                  <tr
-                    key={link.id}
-                    className="group bg-card transition-colors hover:bg-secondary/60"
-                  >
-                    <td className="px-4 py-4 align-top">
-                      <div
-                        className={cn(
-                          "text-sm font-medium text-foreground",
-                          link.is_archived && "text-muted-foreground"
-                        )}
-                      >
-                        {label}
-                      </div>
-                      <div className="mt-1 flex flex-wrap items-center gap-1.5">
-                        {tag && link.tag && (
-                          <span
-                            className={cn(
-                              "inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide",
-                              TAG_STYLES[link.tag]
-                            )}
+                  return (
+                    <tr
+                      key={link.id}
+                      className="group bg-card transition-colors hover:bg-secondary/60"
+                    >
+                      <td className="px-4 py-4 align-top">
+                        <div
+                          className={cn(
+                            "text-sm font-medium text-foreground",
+                            link.is_archived && "text-muted-foreground"
+                          )}
+                        >
+                          {label}
+                        </div>
+                        <div className="mt-1 flex flex-wrap items-center gap-1.5">
+                          {tag && link.tag && (
+                            <span
+                              className={cn(
+                                "inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide",
+                                TAG_STYLES[link.tag]
+                              )}
+                            >
+                              {tag}
+                            </span>
+                          )}
+                          {link.is_archived && (
+                            <span className="inline-flex rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-gray-600">
+                              Archived
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 align-top">
+                        <CopyShortUrl shortCode={link.short_code} />
+                      </td>
+                      <td className="max-w-[200px] px-4 py-4 align-top">
+                        <div
+                          className="truncate text-sm text-muted-foreground"
+                          title={link.original_url}
+                        >
+                          {truncate(link.original_url)}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 align-top">
+                        <span className="font-mono text-sm text-foreground">
+                          {link.click_count.toLocaleString()}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 align-top">
+                        <span className="text-sm text-muted-foreground">
+                          {formatDate(link.created_at)}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 align-top text-right">
+                        <div className="flex items-center justify-end gap-1 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
+                          <ActionCopyButton shortCode={link.short_code} />
+                          <button
+                            type="button"
+                            className="rounded p-1 text-muted-foreground hover:text-primary"
+                            title="Edit"
+                            onClick={() =>
+                              openEditLink({
+                                id: link.id,
+                                original_url: link.original_url,
+                                short_code: link.short_code,
+                                title: link.title,
+                              })
+                            }
                           >
-                            {tag}
-                          </span>
-                        )}
-                        {link.is_archived && (
-                          <span className="inline-flex rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-gray-600">
-                            Archived
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 align-top">
-                      <CopyShortUrl shortCode={link.short_code} />
-                    </td>
-                    <td className="max-w-[200px] px-4 py-4 align-top">
-                      <div
-                        className="truncate text-sm text-muted-foreground"
-                        title={link.original_url}
-                      >
-                        {truncate(link.original_url)}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 align-top">
-                      <span className="font-mono text-sm text-foreground">
-                        {link.click_count.toLocaleString()}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 align-top">
-                      <span className="text-sm text-muted-foreground">
-                        {formatDate(link.created_at)}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 align-top text-right">
-                      <div className="flex items-center justify-end gap-1 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
-                        <ActionCopyButton shortCode={link.short_code} />
-                        <button
-                          type="button"
-                          className="rounded p-1 text-muted-foreground hover:text-primary"
-                          title="Edit"
-                          onClick={() =>
-                            openEditLink({
-                              id: link.id,
-                              original_url: link.original_url,
-                              short_code: link.short_code,
-                              title: link.title,
-                            })
-                          }
-                        >
-                          <Pencil className="size-5" />
-                        </button>
-                        <button
-                          type="button"
-                          className="rounded p-1 text-muted-foreground hover:text-destructive"
-                          title="Delete"
-                          onClick={() => {
-                            setDeleteError(null);
-                            setPendingDelete(link);
-                          }}
-                        >
-                          <Trash2 className="size-5" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                            <Pencil className="size-5" />
+                          </button>
+                          <button
+                            type="button"
+                            className="rounded p-1 text-muted-foreground hover:text-primary disabled:opacity-50"
+                            title={
+                              link.is_archived ? "Unarchive" : "Archive"
+                            }
+                            disabled={archivingId === link.id}
+                            onClick={() => void toggleArchive(link)}
+                          >
+                            {archivingId === link.id ? (
+                              <Loader2 className="size-5 animate-spin" />
+                            ) : link.is_archived ? (
+                              <ArchiveRestore className="size-5" />
+                            ) : (
+                              <Archive className="size-5" />
+                            )}
+                          </button>
+                          <button
+                            type="button"
+                            className="rounded p-1 text-muted-foreground hover:text-destructive"
+                            title="Delete"
+                            onClick={() => {
+                              setDeleteError(null);
+                              setPendingDelete(link);
+                            }}
+                          >
+                            <Trash2 className="size-5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
         <LinksPagination
           page={page}
           pageSize={pageSize}
           totalCount={totalCount}
+          queryString={queryString}
         />
       </div>
 

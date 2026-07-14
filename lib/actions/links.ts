@@ -336,6 +336,44 @@ export async function deleteLink(
   return { success: true };
 }
 
+export async function setLinkArchived(
+  linkId: string,
+  isArchived: boolean
+): Promise<{ success: boolean; error?: string }> {
+  const parsed = z.string().uuid().safeParse(linkId);
+  if (!parsed.success) {
+    return { success: false, error: "Invalid link id" };
+  }
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { success: false, error: "You must be signed in" };
+  }
+
+  const { data: updated, error } = await supabase
+    .from("links")
+    .update({ is_archived: isArchived })
+    .eq("id", parsed.data)
+    .eq("user_id", user.id)
+    .select("id")
+    .maybeSingle();
+
+  if (error) {
+    return { success: false, error: "Unable to update archive status" };
+  }
+
+  if (!updated) {
+    return { success: false, error: "Link not found" };
+  }
+
+  revalidatePath("/dashboard");
+  return { success: true };
+}
+
 function clearClaimCookie() {
   const siteUrl = getSiteUrl();
   cookies().set("snipp_pending_claim", "", {

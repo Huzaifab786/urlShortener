@@ -7,18 +7,31 @@ export function LinksPagination({
   page,
   pageSize,
   totalCount,
+  queryString,
 }: {
   page: number;
   pageSize: number;
   totalCount: number;
+  /** Existing query without page, e.g. "q=foo&filter=active" */
+  queryString?: string;
 }) {
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
   if (totalCount <= pageSize) return null;
 
   const start = (page - 1) * pageSize + 1;
   const end = Math.min(page * pageSize, totalCount);
-
   const pages = buildPageList(page, totalPages);
+
+  function hrefFor(p: number) {
+    const params = new URLSearchParams(queryString ?? "");
+    if (p <= 1) {
+      params.delete("page");
+    } else {
+      params.set("page", String(p));
+    }
+    const qs = params.toString();
+    return qs ? `/dashboard?${qs}` : "/dashboard";
+  }
 
   return (
     <div className="flex flex-col items-center justify-between gap-3 border-t border-border bg-card px-4 py-3 sm:flex-row">
@@ -27,7 +40,7 @@ export function LinksPagination({
       </span>
       <div className="flex gap-1">
         <PaginationLink
-          href={page > 1 ? `/dashboard?page=${page - 1}` : undefined}
+          href={page > 1 ? hrefFor(page - 1) : undefined}
           disabled={page <= 1}
           aria-label="Previous page"
         >
@@ -44,7 +57,7 @@ export function LinksPagination({
           ) : (
             <PaginationLink
               key={p}
-              href={`/dashboard?page=${p}`}
+              href={hrefFor(p)}
               active={p === page}
             >
               {p}
@@ -52,7 +65,7 @@ export function LinksPagination({
           )
         )}
         <PaginationLink
-          href={page < totalPages ? `/dashboard?page=${page + 1}` : undefined}
+          href={page < totalPages ? hrefFor(page + 1) : undefined}
           disabled={page >= totalPages}
           aria-label="Next page"
         >

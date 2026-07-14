@@ -58,9 +58,9 @@ below is free for every user, always.
 ## Phase 2 — Enhancements (only start after all of Phase 1 is verified working)
 
 ### 2.1 Search and filtering on the dashboard
-- [ ] Search input filters the links table by name or short code as the user types (debounced).
-- [ ] "All Links / Active / Archived" tabs filter the table accordingly.
-- [ ] Archive/unarchive action toggles `is_archived` on a link without deleting it.
+- [x] Search input filters the links table by name or short code as the user types (debounced).
+- [x] "All Links / Active / Archived" tabs filter the table accordingly.
+- [x] Archive/unarchive action toggles `is_archived` on a link without deleting it.
 
 ### 2.2 Sparklines
 - [ ] Each row in the links table shows a small 7-day click trend line next to the click count, built from the `clicks` table grouped by day, rendered with `recharts`.

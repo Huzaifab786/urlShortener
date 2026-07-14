@@ -7,26 +7,46 @@ import {
   type DashboardStats,
 } from "@/lib/dashboard/types";
 
-export async function getDashboardData(page = 1): Promise<{
+export type LinksFilter = "all" | "active" | "archived";
+
+export type DashboardQuery = {
+  page?: number;
+  q?: string;
+  filter?: LinksFilter;
+};
+
+export async function getDashboardData({
+  page = 1,
+  q = "",
+  filter = "all",
+}: DashboardQuery = {}): Promise<{
   links: DashboardLink[];
   stats: DashboardStats;
   totalCount: number;
+  ownedCount: number;
   page: number;
   pageSize: number;
+  filter: LinksFilter;
+  q: string;
 }> {
+  const empty = {
+    links: [] as DashboardLink[],
+    stats: { totalLinks: 0, totalClicks30d: 0, topLink: null },
+    totalCount: 0,
+    ownedCount: 0,
+    page: 1,
+    pageSize: LINKS_PAGE_SIZE,
+    filter,
+    q,
+  };
+
   const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return {
-      links: [],
-      stats: { totalLinks: 0, totalClicks30d: 0, topLink: null },
-      totalCount: 0,
-      page: 1,
-      pageSize: LINKS_PAGE_SIZE,
-    };
+    return empty;
   }
 
   const { data: allLinks, error } = await supabase
@@ -36,13 +56,7 @@ export async function getDashboardData(page = 1): Promise<{
     .order("created_at", { ascending: false });
 
   if (error || !allLinks) {
-    return {
-      links: [],
-      stats: { totalLinks: 0, totalClicks30d: 0, topLink: null },
-      totalCount: 0,
-      page: 1,
-      pageSize: LINKS_PAGE_SIZE,
-    };
+    return empty;
   }
 
   const linkIds = allLinks.map((l) => l.id);
@@ -95,20 +109,45 @@ export async function getDashboardData(page = 1): Promise<{
     }
   }
 
-  const totalCount = withCounts.length;
+  const search = q.trim().toLowerCase();
+  let filtered = withCounts;
+
+  if (filter === "active") {
+    filtered = filtered.filter((l) => !l.is_archived);
+  } else if (filter === "archived") {
+    filtered = filtered.filter((l) => l.is_archived);
+  }
+
+  if (search) {
+    filtered = filtered.filter((l) => {
+      const title = (l.title ?? "").toLowerCase();
+      const code = l.short_code.toLowerCase();
+      const original = l.original_url.toLowerCase();
+      return (
+        title.includes(search) ||
+        code.includes(search) ||
+        original.includes(search)
+      );
+    });
+  }
+
+  const totalCount = filtered.length;
   const safePage = Math.max(1, page);
   const start = (safePage - 1) * LINKS_PAGE_SIZE;
-  const pageLinks = withCounts.slice(start, start + LINKS_PAGE_SIZE);
+  const pageLinks = filtered.slice(start, start + LINKS_PAGE_SIZE);
 
   return {
     links: pageLinks,
     stats: {
-      totalLinks: totalCount,
+      totalLinks: withCounts.length,
       totalClicks30d,
       topLink,
     },
     totalCount,
+    ownedCount: withCounts.length,
     page: safePage,
     pageSize: LINKS_PAGE_SIZE,
+    filter,
+    q,
   };
 }
